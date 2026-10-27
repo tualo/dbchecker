@@ -1,0 +1,17 @@
+{
+  "name": "tualo/dbchecker",
+  "description": "DB Vitality Package Tualo Office",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Tualo\\Office\\DBChecker\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "minimum-stability": "dev",
+  "require": {},
+  "version": "1.0.0"
+}
