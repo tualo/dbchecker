@@ -39,8 +39,8 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                     join information_schema.VIEWS v2
                         on v2.TABLE_SCHEMA = c.TABLE_SCHEMA AND v2.TABLE_NAME = c.TABLE_NAME
                     WHERE c.TABLE_SCHEMA = DATABASE()  
-                    AND c.CHARACTER_SET_NAME <> "utf8mb4"
-                    and c.COLLATION_NAME <> "utf8mb4_general_ci"
+                    -- AND c.CHARACTER_SET_NAME <> "utf8mb4"
+                    -- and c.COLLATION_NAME <> "utf8mb4_general_ci"
                 ORDER BY c.TABLE_NAME, c.ORDINAL_POSITION
                 ) as subquery
                 ';
