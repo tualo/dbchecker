@@ -13,6 +13,7 @@ Ext.define('Tualo.dbchecker.lazy.controller.ViewsCheck', {
             range = store.getRange();
 
         me.getView().setLoading(true);
+        range.forEach(record => record.set('checktype', 'Pending'));
         me.singleCheck(range);
     },
     singleCheck: async function (range) {
