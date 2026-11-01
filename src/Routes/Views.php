@@ -104,7 +104,8 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                 if (empty($viewDefinition)) {
                     throw new \Exception('View not found');
                 }
-                $viewDefinition = 'CREATE OR REPLACE VIEW `' . $_POST['view'] . '` AS ' . $viewDefinition[0]['VIEW_DEFINITION'];
+                $viewDefinition = 'CREATE OR REPLACE VIEW `' . $_POST['view'] . '` AS ' . $viewDefinition[0]['view_definition'];
+                App::result('sql', $viewDefinition);
                 $db->direct($viewDefinition);
 
                 App::result('success', true);
@@ -112,6 +113,6 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                 App::result('msg', $e->getMessage());
             }
             App::contenttype('application/json');
-        }, ['get'], true, [], self::scope());
+        }, ['post'], true, [], self::scope());
     }
 }
