@@ -42,6 +42,8 @@ Ext.define('Tualo.dbchecker.lazy.View', {
         // this.getController().update();
     },
 
+    layout: 'fit',
+
     items: [
         {
             xtype: 'tualo_dbchecker_viewscheck',
