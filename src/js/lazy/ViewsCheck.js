@@ -26,8 +26,11 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
                 }
             ],
             xtype: 'grid',
+            plugins: {
+                gridfilters: true
+            },
             columns: [
-                { text: 'Check Type', dataIndex: 'checktype' },
+                { text: 'Check Type', dataIndex: 'checktype', filter: 'list' },
                 { text: 'Table Name', dataIndex: 'table_name', flex: 1 }
             ],
             bind: {

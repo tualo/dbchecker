@@ -21,28 +21,9 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
             $db = App::get('session')->getDB();
             try {
                 $sql = '
-                select distinct table_name, definer from
-                (
-                SELECT
-                    
-                    c.TABLE_NAME,
-                     v.TABLE_TYPE,
-                    c.COLUMN_NAME,
-                    c.COLUMN_TYPE,
-                    c.CHARACTER_SET_NAME,
-                    c.COLLATION_NAME,
-                    definer,
-                    VIEW_DEFINITION
-                FROM information_schema.COLUMNS c
-                    join information_schema.TABLES v 
-                        on v.TABLE_SCHEMA = c.TABLE_SCHEMA AND v.TABLE_NAME = c.TABLE_NAME
-                    join information_schema.VIEWS v2
-                        on v2.TABLE_SCHEMA = c.TABLE_SCHEMA AND v2.TABLE_NAME = c.TABLE_NAME
-                    WHERE c.TABLE_SCHEMA = DATABASE()  
-                    -- AND c.CHARACTER_SET_NAME <> "utf8mb4"
-                    -- and c.COLLATION_NAME <> "utf8mb4_general_ci"
-                ORDER BY c.TABLE_NAME, c.ORDINAL_POSITION
-                ) as subquery
+                select table_name,"" as checktype from 
+                information_schema.TABLES v
+                where TABLE_SCHEMA=DATABASE()
                 ';
                 $list = $db->direct($sql);
                 App::result('success', true);
