@@ -14,6 +14,7 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
     listeners: {
         boxready: 'onBoxReady'
     },
+    layout: 'fit',
     items: [
         {
             scrollable: true,
