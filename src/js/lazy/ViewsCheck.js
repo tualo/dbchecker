@@ -17,7 +17,7 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
     layout: 'fit',
     items: [
         {
-            scrollable: true,
+            scrollable: 'y',
             title: 'Views Check',
             tbar: [
                 {
