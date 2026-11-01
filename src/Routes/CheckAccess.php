@@ -16,7 +16,8 @@ class CheckAccess extends \Tualo\Office\Basic\RouteWrapper
     }
     public static function register()
     {
-        BasicRoute::add('/js/dbchecker', function ($matches) {
+        BasicRoute::add('/dbchecker/access', function () {
+            App::contenttype('application/json');
             App::result('success', true);
         }, ['get'], true, [], self::scope());
     }

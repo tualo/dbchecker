@@ -5,7 +5,8 @@ Ext.define('Tualo.dbchecker.lazy.View', {
 
     requires: [
         'Tualo.dbchecker.lazy.controller.View',
-        'Tualo.dbchecker.lazy.models.View'
+        'Tualo.dbchecker.lazy.models.View',
+        'Tualo.dbchecker.lazy.ViewsCheck'
     ],
 
 
@@ -33,17 +34,17 @@ Ext.define('Tualo.dbchecker.lazy.View', {
     applyChecktype: function (checktype) {
         console.log('Tualo.dbchecker.lazy.View', 'applyChecktype', checktype);
         this.getViewModel().set('checktype', checktype);
-        this.getController().update();
+        // this.getController().update();
     },
     applyTable: function (table) {
         console.log('Tualo.dbchecker.lazy.View', 'applyTable', table);
         this.getViewModel().set('table', table);
-        this.getController().update();
+        // this.getController().update();
     },
 
     items: [
         {
-            xtype: 'panel',
+            xtype: 'tualo_dbchecker_viewscheck',
             itemId: 'stage',
 
         }
