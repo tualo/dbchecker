@@ -45,5 +45,46 @@ Ext.define('Tualo.dbchecker.lazy.controller.ViewsCheck', {
         if (range.length > 0) {
             await me.singleCheck(range);
         }
+    },
+
+    onRecreateView: function () {
+        let me = this,
+            model = me.getViewModel(),
+            view = me.getView(),
+            grid = view.getComponent('views'),
+            selection = grid.getSelection();
+
+        me.singleRecreate(selection);
+    },
+
+    singleRecreate: async function (range) {
+        let me = this,
+            model = me.getViewModel(),
+            store = model.getStore('views'),
+            record = range.pop();
+        if (!record) {
+            return;
+        }
+
+        let viewName = record.get('table_name');
+        const formData = new FormData();
+        formData.append("view", viewName);
+        try {
+            let result = fetch('./dbchecker/views/recreate', {
+                method: 'GET',
+                body: formData,
+            }).then(response => response.json());
+            let data = await result;
+            if (data.success) {
+                record.set('checktype', 'Recreated');
+            } else {
+                record.set('checktype', 'Failed: ' + data.msg);
+            }
+        } catch (e) {
+            record.set('checktype', 'Error: ' + e.message);
+        }
+        if (range.length > 0) {
+            await me.singleRecreate(range);
+        }
     }
 }); 

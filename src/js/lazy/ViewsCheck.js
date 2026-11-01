@@ -23,6 +23,10 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
                 {
                     text: 'Prüfen',
                     handler: 'onCheckView'
+                },
+                {
+                    text: 'Reparieren',
+                    handler: 'onRecreateView'
                 }
             ],
             xtype: 'grid',

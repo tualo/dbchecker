@@ -84,5 +84,34 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
             }
             App::contenttype('application/json');
         }, ['post'], true, [], self::scope());
+
+        BasicRoute::add('/dbchecker/views/recreate', function () {
+            $db = App::get('session')->getDB();
+            App::result('success', false);
+
+            try {
+                if (!isset($_POST['view']) || empty($_POST['view'])) {
+                    throw new \Exception('View parameter is required');
+                }
+                $sql = 'SELECT
+                    TABLE_NAME,
+                    VIEW_DEFINITION
+                FROM information_schema.VIEWS
+                WHERE TABLE_SCHEMA = DATABASE()
+                AND TABLE_NAME = "' . $_POST['view'] . '" 
+                ';
+                $viewDefinition = $db->direct($sql);
+                if (empty($viewDefinition)) {
+                    throw new \Exception('View not found');
+                }
+                $viewDefinition = 'CREATE OR REPLACE VIEW `' . $_POST['view'] . '` AS ' . $viewDefinition[0]['VIEW_DEFINITION'];
+                $db->direct($viewDefinition);
+
+                App::result('success', true);
+            } catch (\Exception $e) {
+                App::result('msg', $e->getMessage());
+            }
+            App::contenttype('application/json');
+        }, ['get'], true, [], self::scope());
     }
 }
