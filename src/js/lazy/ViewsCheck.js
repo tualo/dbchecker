@@ -34,7 +34,20 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
                 gridfilters: true
             },
             columns: [
-                { text: 'Check Type', dataIndex: 'checktype', filter: 'list' },
+                {
+                    text: 'Check Type', dataIndex: 'checktype', filter: {
+                        type: 'list',
+                        options: [
+                            { id: 'Pending', text: 'Pending', checked: true },
+                            { id: 'Success', text: 'Success', checked: false },
+                            { id: 'Failed', text: 'Failed', checked: true },
+                            { id: 'Recreated', text: 'Recreated', checked: true },
+                            { id: 'Error', text: 'Error', checked: true },
+                            { id: '', text: '', checked: true }
+                        ],
+                        defaultValue: 'Pending'
+                    }
+                },
                 { text: 'Table Name', dataIndex: 'table_name', flex: 1 },
                 { text: 'Message', dataIndex: 'msg', flex: 1 }
             ],
