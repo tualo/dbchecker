@@ -35,7 +35,8 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
             },
             columns: [
                 { text: 'Check Type', dataIndex: 'checktype', filter: 'list' },
-                { text: 'Table Name', dataIndex: 'table_name', flex: 1 }
+                { text: 'Table Name', dataIndex: 'table_name', flex: 1 },
+                { text: 'Message', dataIndex: 'msg', flex: 1 }
             ],
             bind: {
                 store: '{views}'

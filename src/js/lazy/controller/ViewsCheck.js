@@ -83,11 +83,14 @@ Ext.define('Tualo.dbchecker.lazy.controller.ViewsCheck', {
             let data = await result;
             if (data.success) {
                 record.set('checktype', 'Recreated');
+                record.set('msg', '');
             } else {
-                record.set('checktype', 'Failed: ' + data.msg);
+                record.set('checktype', 'Failed');
+                record.set('msg', data.msg);
             }
         } catch (e) {
-            record.set('checktype', 'Error: ' + e.message);
+            record.set('checktype', 'Error');
+            record.set('msg', e.message);
         }
         if (range.length > 0) {
             await me.singleRecreate(range);

@@ -21,7 +21,7 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
             $db = App::get('session')->getDB();
             try {
                 $sql = '
-                select table_name,"" as checktype from 
+                select table_name,"" as checktype, "" as msg from 
                 information_schema.TABLES v
                 where TABLE_SCHEMA=DATABASE()
                 AND TABLE_TYPE="VIEW"
@@ -44,33 +44,6 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                     throw new \Exception('View parameter is required');
                 }
 
-                /*
-                $sql = '
-                select distinct table_name, definer from
-                (
-                SELECT
-                    
-                    c.TABLE_NAME,
-                     v.TABLE_TYPE,
-                    c.COLUMN_NAME,
-                    c.COLUMN_TYPE,
-                    c.CHARACTER_SET_NAME,
-                    c.COLLATION_NAME,
-                    definer,
-                    VIEW_DEFINITION
-                FROM information_schema.COLUMNS c
-                    join information_schema.TABLES v 
-                        on v.TABLE_SCHEMA = c.TABLE_SCHEMA AND v.TABLE_NAME = c.TABLE_NAME
-                    join information_schema.VIEWS v2
-                        on v2.TABLE_SCHEMA = c.TABLE_SCHEMA AND v2.TABLE_NAME = c.TABLE_NAME
-                    WHERE c.TABLE_SCHEMA = DATABASE()  
-                    AND c.CHARACTER_SET_NAME <> "utf8mb4"
-                    and c.COLLATION_NAME <> "utf8mb4_general_ci"
-                ORDER BY c.TABLE_NAME, c.ORDINAL_POSITION
-                ) as subquery
-                ';
-                $list = $db->direct($sql);
-                */
 
                 $viewName = $_POST['view'];
                 // sanitize view name to prevent SQL injection
@@ -100,13 +73,26 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                 WHERE TABLE_SCHEMA = DATABASE()
                 AND TABLE_NAME = "' . $_POST['view'] . '" 
                 ';
-                $viewDefinition = $db->direct($sql);
-                if (empty($viewDefinition)) {
+                $viewDefinitionRow = $db->singleRow($sql);
+                if (empty($viewDefinitionRow)) {
                     throw new \Exception('View not found');
                 }
-                $viewDefinition = 'CREATE OR REPLACE VIEW `' . $_POST['view'] . '` AS ' . $viewDefinition[0]['view_definition'];
+                $viewDefinition = 'CREATE OR REPLACE VIEW `' . $_POST['view'] . '` AS ' . $viewDefinitionRow['view_definition'];
                 App::result('sql', $viewDefinition);
                 $db->direct($viewDefinition);
+
+                // check if the view was successfully recreated
+                try {
+                    $db->direct('SHOW FIELDS FROM `' . $_POST['view'] . '`');
+                } catch (\Exception $e) {
+                    // if the first attempt fails, try again
+                    try {
+                        $db->direct($viewDefinitionRow['view_definition']);
+                    } catch (\Exception $e) {
+                        throw new \Exception('' . $e->getMessage());
+                    }
+                }
+
 
                 App::result('success', true);
             } catch (\Exception $e) {

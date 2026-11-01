@@ -9,7 +9,11 @@ Ext.define('Tualo.dbchecker.lazy.models.ViewsCheck', {
         views: {
             type: 'json',
             autoLoad: true,
-            fields: [{ 'dataIndex': 'checktype', 'name': 'checktype' }, { 'dataIndex': 'table_name', 'name': 'table_name' }],
+            fields: [
+                { 'dataIndex': 'checktype', 'name': 'checktype' },
+                { 'dataIndex': 'table_name', 'name': 'table_name' },
+                { 'dataIndex': 'msg', 'name': 'msg' }
+            ],
             proxy: {
                 type: 'ajax',
                 url: './dbchecker/views',
