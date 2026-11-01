@@ -94,6 +94,8 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                 // sanitize view name to prevent SQL injection
                 $viewName = preg_replace('/[^a-zA-Z0-9_\s]/', '', $viewName);
                 $db->direct('show create view `' . $viewName . '`');
+
+                $db->direct('SHOW FIELDS FROM `' . $viewName . '`');
                 App::result('success', true);
             } catch (\Exception $e) {
                 App::result('msg', $e->getMessage());
