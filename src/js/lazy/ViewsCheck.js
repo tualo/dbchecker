@@ -38,14 +38,15 @@ Ext.define('Tualo.dbchecker.lazy.ViewsCheck', {
                     text: 'Check Type', dataIndex: 'checktype', filter: {
                         type: 'list',
                         options: [
-                            { id: 'Pending', text: 'Pending', checked: true },
-                            { id: 'Success', text: 'Success', checked: false },
-                            { id: 'Failed', text: 'Failed', checked: true },
-                            { id: 'Recreated', text: 'Recreated', checked: true },
-                            { id: 'Error', text: 'Error', checked: true },
-                            { id: '', text: '', checked: true }
+                            { id: 'Pending', text: 'Pending' },
+                            { id: 'Success', text: 'Success' },
+                            { id: 'Failed', text: 'Failed' },
+                            { id: 'Recreated', text: 'Recreated' },
+                            { id: 'Error', text: 'Error' },
+                            { id: '', text: '' }
                         ],
-                        defaultValue: 'Pending'
+                        value: ['Pending', 'Failed', 'Recreated', 'Error', ''],
+                        active: true
                     }
                 },
                 { text: 'Table Name', dataIndex: 'table_name', flex: 1 },
