@@ -24,6 +24,7 @@ class Views extends \Tualo\Office\Basic\RouteWrapper
                 select table_name,"" as checktype from 
                 information_schema.TABLES v
                 where TABLE_SCHEMA=DATABASE()
+                AND TABLE_TYPE="VIEW"
                 ';
                 $list = $db->direct($sql);
                 App::result('success', true);
