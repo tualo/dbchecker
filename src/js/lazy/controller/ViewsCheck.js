@@ -37,7 +37,7 @@ Ext.define('Tualo.dbchecker.lazy.controller.ViewsCheck', {
             }).then(response => response.json());
             let data = await result;
             if (data.success) {
-                record.set('checktype', 'Recreated');
+                record.set('checktype', 'Success');
                 record.set('msg', '');
             } else {
                 record.set('checktype', 'Failed');
